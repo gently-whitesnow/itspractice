@@ -10,21 +10,19 @@ using Microsoft.Extensions.DependencyInjection;
 namespace authorization_library;
 
 [PublicAPI]
-public static class CapAuthenticationExtension
+public static class AuthenticationExtension
 {
-   
-    public static void AddCapAuthentication(this IServiceCollection services)
+    public static void AddAuthentication(this IServiceCollection services)
     {
-        
         services.ConfigureByName<CacheManagerOptions>();
         services.AddSingleton<RedisProvider>();
         services.AddTransient<RedisInitializer>();
-        
+
         services.ConfigureByName<JwtOptions>();
         services.AddSingleton<JwtManager>();
     }
-    
-    public static void UseCapAuthentication(this IApplicationBuilder app)
+
+    public static void UseAuthentication(this IApplicationBuilder app)
     {
         app.UseCookiePolicy(new CookiePolicyOptions
         {
@@ -32,6 +30,6 @@ public static class CapAuthenticationExtension
             HttpOnly = HttpOnlyPolicy.Always,
             Secure = CookieSecurePolicy.Always
         });
-        app.UseMiddleware<CapAuthenticationMiddleware>();
+        app.UseMiddleware<AuthenticationMiddleware>();
     }
 }

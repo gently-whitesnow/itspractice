@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace authorization_library;
 
 [PublicAPI]
-public class ValidateModelStateAttribute : ActionFilterAttribute
+public sealed class ValidateModelStateAttribute : ActionFilterAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext actionContext)
     {

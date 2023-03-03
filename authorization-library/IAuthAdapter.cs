@@ -5,5 +5,5 @@ namespace authorization_library;
 
 public interface IAuthAdapter
 {
-    public Task<OperationResult<JwtResponse>> UpdateTokenAsync(JwtRequest jwtRequest);
+    public Task<OperationResult<JwtBody>> UpdateTokenAsync(JwtRequest jwtRequest);
 }

@@ -8,13 +8,13 @@ namespace authorization_library;
 
 public class JwtValidator
 {
-    private JwtOptions _jwtOptions;
+    private readonly JwtOptions _jwtOptions;
     protected JwtValidator(JwtOptions options)
     {
         _jwtOptions = options;
     }
     
-    protected ClaimsPrincipal? ValidateToken(string token)
+    protected ClaimsPrincipal? ValidateAndReadToken(string token)
     {
         var publicKey = Convert.FromBase64String(_jwtOptions.PublicKey);
         

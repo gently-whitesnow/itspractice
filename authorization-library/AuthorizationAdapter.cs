@@ -21,10 +21,10 @@ public sealed class AuthorizationAdapter : IAuthAdapter, IDisposable
 
     public AuthorizationAdapter(string authorizationServiceAddress)
     {
-        _httpClient = new HttpClient {BaseAddress = new Uri(authorizationServiceAddress)};
+        _httpClient = new HttpClient { BaseAddress = new Uri(authorizationServiceAddress) };
     }
 
-    public async Task<OperationResult<JwtResponse>> UpdateTokenAsync(JwtRequest jwtRequest)
+    public async Task<OperationResult<JwtBody>> UpdateTokenAsync(JwtRequest jwtRequest)
     {
         try
         {
@@ -36,16 +36,16 @@ public sealed class AuthorizationAdapter : IAuthAdapter, IDisposable
 
             if (!response.IsSuccessStatusCode)
             {
-                return new OperationResult<JwtResponse>(response.StatusCode);
+                return new(response.StatusCode);
             }
 
             var taskResponse =
-                JsonSerializer.Deserialize<JwtResponse>(await response.Content.ReadAsStringAsync(), _jsonSerializerOptions);
-            return new OperationResult<JwtResponse>(taskResponse);
+                JsonSerializer.Deserialize<JwtBody>(await response.Content.ReadAsStringAsync(), _jsonSerializerOptions);
+            return new(taskResponse);
         }
         catch
         {
-            return new OperationResult<JwtResponse>(ActionStatus.ExternalServerError);
+            return new(ActionStatus.ExternalServerError);
         }
     }
 
